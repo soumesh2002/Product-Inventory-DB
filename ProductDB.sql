@@ -44,7 +44,7 @@ values
 select *
 from Orders;
 
-TRUNCATE Products;
+-- TRUNCATE Products;
 
 INSERT INTO Products
     (product_id, product_name, price)
@@ -112,4 +112,124 @@ select o.order_id, o.customer_name, p.product_name, od.quantity
 from Orders o
 join Order_details od ON o.order_id = od.order_id
 join Products p on od.product_id = p.product_id
-where o.customer_name = 'John Smith'; 
+where o.customer_name = 'John Smith';
+
+-- 07
+select product_name, price
+from Products
+where price > 50000;
+
+-- 08
+select o.order_id, o.customer_name, o.order_date, p.product_name, od.quantity
+from Orders o
+join Order_details od on o.order_id = od.order_id
+join Products p on p.product_id = od.product_id
+where o.order_id = 103;
+
+-- 09
+-- substring: %'hit'%
+select p.product_name
+from Products p
+where p.product_name like '%rav%';
+
+-- 10
+select o.order_id, o.order_date, od.order_id, od.quantity
+from Orders o
+join Order_details od on o.order_id = od.order_id
+where o.order_id = 102;
+
+-- 11
+select count(o.order_id) as totalOrders
+from Orders o;
+
+-- 12
+select count(p.product_id) as totalProducts
+from Products p;
+
+-- 13
+select count(od.order_id) as totalOrderDetails
+from Order_details od;
+
+-- 14
+select max(prod.price) as maxProductPrice
+from Products prod;
+
+-- 15
+select min(prod.price) as minProductPrice
+from Products prod;
+
+-- 16
+select avg(prod.price) as avgProductPrice
+from Products prod;
+
+-- formatting avg value to 2 decimal places
+select cast(avg(prod.price) as decimal(10, 2))
+as avgProductPrice
+from Products prod;
+
+-- 17
+select o.order_id, o.order_date, p.product_name
+from Orders o
+join Order_details od on o.order_id = od.order_id
+join Products p on p.product_id = od.product_id
+order by o.order_date;
+
+-- 18
+select p.product_id, p.product_name, p.price
+from Products p
+order by p.price;
+
+-- 19
+select o.order_id, o.customer_name
+from Orders o
+order by o.customer_name;
+
+-- 20
+select od.order_id, od.quantity
+from Order_details od;
+
+-- 21
+select o.order_id, p.product_name, p.price, od.quantity, (od.quantity * p.price) as totalValue
+from Orders o
+join Order_details od on o.order_id = od.order_id
+join Products p on p.product_id = od.product_id;
+
+-- 22
+select o.order_id, o.customer_name, p.product_name
+from Orders o
+join Order_details od on o.order_id = od.order_id
+join Products p on p.product_id = od.product_id;
+
+-- 23
+select distinct od.order_id, p.product_name
+from Order_details od
+join Products p on od.product_id = p.product_id
+where p.product_name = "Sony PS5";
+
+-- 24
+select count(od.product_id) as TotalDifferentProductsOrdered
+from Order_details od;
+
+-- 26
+select max(p.price) as maxPrice
+from Products p;
+
+-- 27
+select min(p.price) as minPrice
+from Products p;
+
+-- 28
+select *
+from Orders
+where Orders.order_date between '1990-10-01' and '2007-09-19';
+
+-- 29
+select p.product_id, p.product_name
+from Products p
+where p.product_id not in (select od.product_id from Order_details od);
+
+-- 30
+select o.order_id, o.customer_name, o.order_date, p.product_name, p.price as price_per_quantity, od.quantity as total_quantity_purchased, (od.quantity * price) as totalValue
+from Orders o
+join Order_details od on o.order_id = od.order_id
+join Products p on p.product_id = od.product_id;
